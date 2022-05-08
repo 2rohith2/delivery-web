@@ -1,0 +1,20 @@
+.header {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+
+  &__logo {
+    height: 80px;
+  }
+}
+
+.last_child {
+  :last-child {
+    margin-left: auto;
+  }
+}
+
+.logout {
+  cursor: pointer;
+  font-weight: 500;
+}

@@ -1,0 +1,379 @@
+swagger: '2.0'
+info:
+  title: Delivery-api
+  description: This is Saloodo delivery-api server.
+  version: '1.0'
+  contact:
+    name: Rohith Kumar E S
+    email: rohith_kumar222@hotmail.com
+    url: 'http://in.linkedin.com/in/2rohith2'
+host: 'localhost:3000'
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+tags:
+  - name: Parcel
+    description: Everything about your parcel
+  - name: Login
+paths:
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          $ref: '#/responses/Login'
+      description: User can get access & refresh tokens to access protected API's by authenticating using email and password
+      parameters:
+        - in: body
+          name: body
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                email: user1@saloodo.com
+                password: password
+            properties:
+              email:
+                type: string
+                minLength: 1
+                format: email
+              password:
+                type: string
+                minLength: 1
+                format: password
+            required:
+              - email
+              - password
+          x-examples: {}
+          description: Email and password is required to authentication an user
+      tags:
+        - Login
+  /parcel:
+    get:
+      summary: Get list of Parcels
+      tags:
+        - Parcel
+      responses:
+        '200':
+          $ref: '#/responses/List-of-parcels'
+      operationId: get-parcel
+      parameters:
+        - $ref: '#/parameters/status'
+        - $ref: '#/parameters/authorization'
+      description: 'Get list of parcel details based on the user role, by default parcels with new status is returned.'
+    post:
+      summary: Create Parcel
+      operationId: post-parcel
+      description: A user with sender role can only create parcel details
+      parameters:
+        - in: body
+          name: body
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                from_address: 0518 Tennessee Drive
+                to_address: 424 Daystar Avenue
+            properties:
+              from_address:
+                type: string
+                minLength: 1
+                example: 0518 Tennessee Drive
+              to_address:
+                type: string
+                minLength: 1
+                example: 424 Daystar Avenue
+            required:
+              - from_address
+              - to_address
+          x-examples: {}
+          description: From & to addresss should be present
+        - $ref: '#/parameters/authorization'
+      responses:
+        '201':
+          $ref: '#/responses/Parcel-details'
+      tags:
+        - Parcel
+  '/parcel/{id}':
+    parameters:
+      - $ref: '#/parameters/id'
+    get:
+      summary: Get Parcel
+      tags:
+        - Parcel
+      responses:
+        '200':
+          $ref: '#/responses/Parcel-details'
+      operationId: get-parcel-id
+      description: 'Get a parcel detail by parcel id, if the user or biker tries to access resource which is not associated with them an is error sent'
+      parameters:
+        - $ref: '#/parameters/authorization'
+    put:
+      summary: Update Parcel
+      operationId: put-parcel-id
+      responses:
+        '200':
+          $ref: '#/responses/Parcel-details'
+      tags:
+        - Parcel
+      description: User with sender role can only update the parcel.
+      parameters:
+        - $ref: '#/parameters/authorization'
+        - in: body
+          name: body
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                from_address: 0518 Tennessee Drive
+                to_address: 424 Daystar Avenue
+            properties:
+              from_address:
+                type: string
+                minLength: 1
+                example: 0518 Tennessee Drive
+              to_address:
+                type: string
+                minLength: 1
+                example: 424 Daystar Avenue
+            required:
+              - from_address
+              - to_address
+    delete:
+      summary: Delete Parcel
+      operationId: delete-parcel-id
+      responses:
+        '204':
+          description: No Content
+      parameters:
+        - $ref: '#/parameters/authorization'
+      description: A user with sender role can only delete parcel which is in the new status.
+      tags:
+        - Parcel
+  '/parcel/{id}/pickup':
+    parameters:
+      - $ref: '#/parameters/id'
+    post:
+      summary: Biker - Pickup Parcel
+      operationId: post-parcel-id-pickup
+      responses:
+        '200':
+          $ref: '#/responses/Parcel-details'
+      tags:
+        - Parcel
+      parameters:
+        - $ref: '#/parameters/authorization'
+      description: A user with biker role can only pick-up a parcel with status new.
+  '/parcel/{id}/deliver':
+    parameters:
+      - $ref: '#/parameters/id'
+    post:
+      summary: Biker - Deliver Parcel
+      operationId: post-parcel-id-deliver
+      responses:
+        '200':
+          $ref: '#/responses/Parcel-details'
+      tags:
+        - Parcel
+      description: A user with biker role can only deliver parcel which he as pick-up earlier
+definitions: {}
+basePath: /v1
+responses:
+  List-of-parcels:
+    description: Example response
+    content:
+      application/json:
+        schema:
+          properties:
+            id:
+              type: string
+    schema:
+      type: object
+      description: ''
+      x-examples:
+        example-1:
+          id: b3554ed1-5c1f-4e70-82c3-c28aefc77ebf
+          created_time: '2021-12-25T04:25:08.922Z'
+          from_address: fdddd asdf
+          status: delivered
+          to_address: asdf s
+          pick_up_time: '2021-12-25T04:25:38.390Z'
+          deliver_time: '2021-12-25T04:26:21.574Z'
+      properties:
+        id:
+          type: string
+          minLength: 1
+          format: uuid
+          readOnly: true
+        created_time:
+          type: string
+          minLength: 1
+          format: date-time
+          readOnly: true
+        from_address:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          minLength: 1
+          enum:
+            - new
+            - transit
+            - delivered
+          readOnly: true
+        to_address:
+          type: string
+          minLength: 1
+        pick_up_time:
+          type: string
+          minLength: 1
+          format: date-time
+          readOnly: true
+        deliver_time:
+          type: string
+          minLength: 1
+          format: date-time
+          readOnly: true
+      required:
+        - id
+        - created_time
+        - from_address
+        - status
+        - to_address
+        - deliver_time
+      readOnly: true
+    examples:
+      example-1:
+        id: b3554ed1-5c1f-4e70-82c3-c28aefc77ebf
+        created_time: '2021-12-25T04:25:08.922Z'
+        from_address: 0518 Tennessee Drive
+        status: delivered
+        to_address: 424 Daystar Avenue
+        pick_up_time: '2021-12-25T04:25:38.390Z'
+        deliver_time: '2021-12-25T04:26:21.574Z'
+  Login:
+    description: Example response
+    content:
+      application/json:
+        schema:
+          properties:
+            id:
+              type: string
+    schema:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBzYWxvb2RvLmNvbSIsInJvbGUiOiJzZW5kZXIiLCJpYXQiOjE2NDA0MDYyNzcsImV4cCI6MTY0MDQ5MjY3N30.U2ENzoQ-pQsxiudIBHJ-hxaWpCk8ZoPh1DEH0SI9LmE
+          refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBzYWxvb2RvLmNvbSIsInJvbGUiOiJzZW5kZXIiLCJpYXQiOjE2NDA0MDYyNzcsImV4cCI6MTY0MTAxMTA3N30.i8TF7Dk7uDvXsTUVx9rNWf2cQYJswlozFsgkKjme7GI
+      properties:
+        access_token:
+          type: string
+          minLength: 1
+          readOnly: true
+        refresh_token:
+          type: string
+          minLength: 1
+          readOnly: true
+      required:
+        - access_token
+        - refresh_token
+    examples:
+      example-1:
+        access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBzYWxvb2RvLmNvbSIsInJvbGUiOiJzZW5kZXIiLCJpYXQiOjE2NDA0MDYyNzcsImV4cCI6MTY0MDQ5MjY3N30.U2ENzoQ-pQsxiudIBHJ-hxaWpCk8ZoPh1DEH0SI9LmE
+        refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyMUBzYWxvb2RvLmNvbSIsInJvbGUiOiJzZW5kZXIiLCJpYXQiOjE2NDA0MDYyNzcsImV4cCI6MTY0MTAxMTA3N30.i8TF7Dk7uDvXsTUVx9rNWf2cQYJswlozFsgkKjme7GI
+  Parcel-details:
+    description: Example response
+    content:
+      application/json:
+        schema:
+          properties:
+            id:
+              type: string
+    schema:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          id: b3554ed1-5c1f-4e70-82c3-c28aefc77ebf
+          created_time: '2021-12-25T04:25:08.922Z'
+          from_address: fdddd asdf
+          status: delivered
+          to_address: asdf s
+          pick_up_time: '2021-12-25T04:25:38.390Z'
+          deliver_time: '2021-12-25T04:26:21.574Z'
+      properties:
+        id:
+          type: string
+          minLength: 1
+          format: uuid
+          readOnly: true
+        created_time:
+          type: string
+          minLength: 1
+          format: date-time
+          readOnly: true
+        from_address:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          minLength: 1
+          enum:
+            - new
+            - delivered
+            - transit
+          readOnly: true
+        to_address:
+          type: string
+          minLength: 1
+        pick_up_time:
+          type: string
+          minLength: 1
+          format: date-time
+          readOnly: true
+        deliver_time:
+          type: string
+          minLength: 1
+          format: date-time
+          readOnly: true
+      required:
+        - id
+        - from_address
+        - status
+        - to_address
+    examples:
+      example-1:
+        id: b3554ed1-5c1f-4e70-82c3-c28aefc77ebf
+        created_time: '2021-12-25T04:25:08.922Z'
+        from_address: 0518 Tennessee Drive
+        status: delivered
+        to_address: 424 Daystar Avenue
+        pick_up_time: '2021-12-25T04:25:38.390Z'
+        deliver_time: '2021-12-25T04:26:21.574Z'
+parameters:
+  status:
+    name: status
+    in: query
+    required: false
+    type: string
+    default: new
+  authorization:
+    name: authorization
+    in: header
+    required: false
+    type: string
+    description: Access token should be to authorize the use to access protected resource
+  id:
+    name: id
+    in: path
+    required: true
+    type: string
+    description: Parcel id
