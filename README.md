@@ -27,12 +27,17 @@ Clean Architecture for faster and easier code maintenance, as well as the Data S
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](http://in.linkedin.com/in/2rohith2)
 
 ## Tech stack used
+
+#### 🔦 Coding Methodology
+* Clean Architecture
+* RBAC (**R**ole **B**ased **A**ccess **C**ontrol) for rendering corresponding UI & for API access
+
 #### 🖥️ Dashboard
 * JavaScript
 * ReactJs
 * TypeScript
-* RBAC (**R**ole **B**ased **A**ccess **C**ontrol) for rendering corresponding UI
 * HTML
+* Container Component Pattern
 * [HTML Accessibility](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML)
 * [HTML Semantics](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantic_elements)
 * CSS
@@ -44,8 +49,9 @@ Clean Architecture for faster and easier code maintenance, as well as the Data S
 * TypeScript
 * NodeJs
 * ExpressJs
-* API Version Controllling
-* RBAC (**R**ole **B**ased **A**ccess **C**ontrol) for accessing API
+* API Version Controlling
+* Winston for logging & log file rotation
+* Babel used for code transpilation
 * [PM2](https://pm2.keymetrics.io/)
 * [JWT](https://jwt.io/) - Used for authentication and authorization.
 * [API Document](https://github.com/2rohith2/delivery-web/tree/master/docs/API%20Doc)
@@ -92,7 +98,6 @@ Start the server
 ```
 
 Link to access
-
 ```bash
   http://localhost:3000
 ```
