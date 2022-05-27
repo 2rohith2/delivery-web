@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: Delivery-api
-  description: This is Saloodo delivery-api server.
+  description: This API documentation will help developers in understanding how to communicate with the delivery-api server in order to design user interfaces based on that api signature.
   version: '1.0'
   contact:
     name: Rohith Kumar E S
@@ -35,7 +35,7 @@ paths:
             type: object
             x-examples:
               example-1:
-                email: user1@saloodo.com
+                email: user1@domain.com
                 password: password
             properties:
               email:
