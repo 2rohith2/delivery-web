@@ -54,7 +54,7 @@ Clean Architecture for faster and easier code maintenance, as well as the Data S
 * Babel used for code transpilation
 * [PM2](https://pm2.keymetrics.io/)
 * [JWT](https://jwt.io/) - Used for authentication and authorization.
-* [API Document](https://github.com/2rohith2/delivery-web/tree/master/docs/API%20Doc)
+* [API Document](https://rawcdn.githack.com/2rohith2/delivery-web/141b8419907ec309ccf09e69bbd2d1c8d168c819/docs/API%20Doc/delivery-api.html)
 * [Postman Collection](https://github.com/2rohith2/delivery-web/tree/master/docs/Postman%20Collection)
 
 ## License
