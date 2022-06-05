@@ -3,7 +3,7 @@ Delivery application can be used in Logistics Industry build using ReactJs
 
 ## 🚀 About Me
 Hi 👋, I'm Rohith Kumar, a passionate JavaScript fullstack developer.
-* 9 Years of Product Experience in CyberSecurity, Telecom Domain and OTT Platform
+* 9.5 Years of Product Experience in CyberSecurity, Telecom Domain and OTT Platform
 * I am a Product Developer with a designer's eye for aesthetics and a security mindset.
 * Experienced in the design, development, and deployment of end-to-end projects based on new concepts for Enterprise SaaS applications using the JavaScript environment.
 * Expertise in the development of production-ready products using a
